@@ -42,3 +42,15 @@ I/MesiboCore (  961): E0105-175121-944(961)(start): starting mesibo
 I/flutter (  961): Mesibo_onConnectionStatus: 6
 I/flutter (  961): Mesibo_onConnectionStatus: 1
 ```
+
+## additional info requested by mesibo
+1. Q. Did the issue arise due to an API upgrade? : no it happened suddenly without us changing the mesibo_flutter_sdk version.
+2. Q. If so, did you try the previous version? Did the previous version work? : we were on mesibo_flutter_sdk 2.2.16 when this happened so we tried the previous to run it with previous versions such as v2.2.13 and v2.2.14 but we faced the same issue, then we upgraded to latest v2.2.17 but we faced the same issue with it.
+3. Q. If not, what changes you made that triggered the issue?: we haven't changed any code from our side, it suddenly stopped working, you can see that this flutter sample app is from mesibo itself , we just changed the tokens and package name to make it work with our tokens.
+4. Q. When was the last time you tested your application? : as far we remember we fully tested the sending message functionality of the app last on 26-4-2024 (friday) morning IST , and it was working
+
+## outcome of following the steps provided by mesibo
+1. we uninstalled the application from all test devices and Created two brand new users and generated fresh tokens for each.
+2. then we tested the messaging by sending the message from user 1 to user 2 but the message was not sent
+3. because the message was not sent, we stopped further login from user 2 and sent messages from user 1 again
+4. Additionally, we used the mesibo Messenger  web demo at https://mesibo.com/demos/messenger/ as one user and we found that message sent from mesibo Messenger  web demo are received in our app but the message is not sent from our app to mesibo Messenger  web demo, refer to below screenshot : 

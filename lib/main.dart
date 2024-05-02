@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:mesibo_flutter_sdk/mesibo.dart';
 
-import 'dart:developer';
-      
 /**************************************************************************************************
- This demo application implements real-time messaging, calls, and conferencing capabilities in a 
- Flutter application. It can serve as a guide for integrating these features into your own Flutter 
- projects. Please refer to the tutorial link below for details on getting started, obtaining 
+ This demo application implements real-time messaging, calls, and conferencing capabilities in a
+ Flutter application. It can serve as a guide for integrating these features into your own Flutter
+ projects. Please refer to the tutorial link below for details on getting started, obtaining
  authentication tokens and other implementation specifics.
 
  https://mesibo.com/documentation/tutorials/get-started/
@@ -43,8 +40,7 @@ class FirstMesiboApp extends StatelessWidget {
         appBar: AppBar(
           title: Text("First Mesibo App"),
         ),
-        body:  HomeWidget(),
-
+        body: HomeWidget(),
       ),
       debugShowCheckedModeBanner: false,
     );
@@ -57,7 +53,11 @@ class HomeWidget extends StatefulWidget {
   _HomeWidgetState createState() => _HomeWidgetState();
 }
 
-class _HomeWidgetState extends State<HomeWidget> implements MesiboConnectionListener, MesiboMessageListener, MesiboGroupListener {
+class _HomeWidgetState extends State<HomeWidget>
+    implements
+        MesiboConnectionListener,
+        MesiboMessageListener,
+        MesiboGroupListener {
   static Mesibo _mesibo = Mesibo();
   static MesiboUI _mesiboUi = MesiboUI();
   String _mesiboStatus = 'Mesibo status: Not Connected.';
@@ -65,14 +65,17 @@ class _HomeWidgetState extends State<HomeWidget> implements MesiboConnectionList
   bool authFail = false;
   String mAppId = "";
 
- /**************************************************************************************************
+  /**************************************************************************************************
    Please refer to the tutorial link below for details on obtaining user authentication tokens.
 
    https://mesibo.com/documentation/tutorials/get-started/
  **************************************************************************************************/
-  DemoUser user1 = DemoUser("759b6a38bf5b8867f823ea2a6d96e0a4e0c129d8a31fba3f38eaa4af797za4175518091", '2');
-  DemoUser user2 = DemoUser("b1f61c0fce8fce2ddeefa999a7db73e75136b3c98cf15fee5ca3eaa4b0f1ciadd1b784673", '8');
-
+  DemoUser user1 = DemoUser(
+      "e3f467e8dd147dbdcec6a49f937d8d34b79496ec52bb0b4eee4b494duae7401be3c5",
+      '912222222222');
+  DemoUser user2 = DemoUser(
+      "e76fb76278f03d4d90fceb27d748fae09fffa629d2401eaa4b4943oa3dda864a6c",
+      '112');
 
   String remoteUser = "";
   bool mOnline = false, mLoginDone = false;
@@ -87,28 +90,31 @@ class _HomeWidgetState extends State<HomeWidget> implements MesiboConnectionList
   void Mesibo_onConnectionStatus(int status) {
     print('Mesibo_onConnectionStatus: ' + status.toString());
 
-    if(authFail) return;  // to prevent overwriting displayed status
+    if (authFail) return; // to prevent overwriting displayed status
     String statusText = status.toString();
-    if(status == Mesibo.MESIBO_STATUS_ONLINE) {
-        statusText = "Online";
-    } else if(status == Mesibo.MESIBO_STATUS_CONNECTING) {
-        statusText = "Connecting";
-    } else if(status == Mesibo.MESIBO_STATUS_CONNECTFAILURE) {
-        statusText = "Connect Failed";
-    } else if(status == Mesibo.MESIBO_STATUS_NONETWORK) {
-        statusText = "No Network";        
-    } else if(status == Mesibo.MESIBO_STATUS_AUTHFAIL) {
-        authFail = true;
-        String warning = "The token is invalid. Ensure that you have used appid \"" + mAppId + "\" to generate Mesibo user access token";
-        statusText = warning;
-        print(warning);
-        showAlert("Auth Fail", warning);
-    } 
+    if (status == Mesibo.MESIBO_STATUS_ONLINE) {
+      statusText = "Online";
+    } else if (status == Mesibo.MESIBO_STATUS_CONNECTING) {
+      statusText = "Connecting";
+    } else if (status == Mesibo.MESIBO_STATUS_CONNECTFAILURE) {
+      statusText = "Connect Failed";
+    } else if (status == Mesibo.MESIBO_STATUS_NONETWORK) {
+      statusText = "No Network";
+    } else if (status == Mesibo.MESIBO_STATUS_AUTHFAIL) {
+      authFail = true;
+      String warning =
+          "The token is invalid. Ensure that you have used appid \"" +
+              mAppId +
+              "\" to generate Mesibo user access token";
+      statusText = warning;
+      print(warning);
+      showAlert("Auth Fail", warning);
+    }
 
     _mesiboStatus = 'Mesibo status: ' + statusText;
     setState(() {});
 
-    if(1 == status) mOnline = true;
+    if (1 == status) mOnline = true;
   }
 
   @override
@@ -131,18 +137,14 @@ class _HomeWidgetState extends State<HomeWidget> implements MesiboConnectionList
             ),
           ],
         ),
-
         Container(
           margin: const EdgeInsets.all(10.0),
           padding: const EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey)
+          decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+          child: Text(_mesiboStatus,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         ),
-        child: Text(_mesiboStatus, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        ), 
-
         mStatusText = Text(""),
-
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
@@ -156,8 +158,7 @@ class _HomeWidgetState extends State<HomeWidget> implements MesiboConnectionList
             ),
           ],
         ),
-
-      Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             ElevatedButton(
@@ -165,12 +166,11 @@ class _HomeWidgetState extends State<HomeWidget> implements MesiboConnectionList
               onPressed: _showMessages,
             ),
             ElevatedButton(
-               child: Text("Show User List"),
-                onPressed: _showUserList,
+              child: Text("Show User List"),
+              onPressed: _showUserList,
             ),
           ],
         ),
-
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
@@ -184,12 +184,10 @@ class _HomeWidgetState extends State<HomeWidget> implements MesiboConnectionList
             ),
           ],
         ),
-
         ElevatedButton(
           child: Text("Group Call"),
           onPressed: _groupCall,
         ),
-
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
@@ -198,12 +196,11 @@ class _HomeWidgetState extends State<HomeWidget> implements MesiboConnectionList
               onPressed: _syncPhoneContacts,
             ),
             ElevatedButton(
-               child: Text("Get Phone Contact"),
-                onPressed: _getPhoneContacts,
+              child: Text("Get Phone Contact"),
+              onPressed: _getPhoneContacts,
             ),
           ],
         ),
-
       ],
     );
   }
@@ -227,63 +224,66 @@ class _HomeWidgetState extends State<HomeWidget> implements MesiboConnectionList
   }
 
   bool isOnline() {
-    if(mOnline) return true;
+    if (mOnline) return true;
     showAlert("Not Online", "First login with a valid token");
     return false;
   }
 
   void initMesibo(String token) async {
-      // optional - only to show alert in AUTHFAIL case
-      Future<String> asyncAppId = _mesibo.getAppIdForAccessToken();
-      asyncAppId.then((String appid) { mAppId = appid; });
+    // optional - only to show alert in AUTHFAIL case
+    Future<String> asyncAppId = _mesibo.getAppIdForAccessToken();
+    asyncAppId.then((String appid) {
+      mAppId = appid;
+    });
 
-      // initialize mesibo
-      _mesibo.setAccessToken(token);
-      _mesibo.setListener(this);
-      _mesibo.start();
+    // initialize mesibo
+    _mesibo.setAccessToken(token);
+    _mesibo.setListener(this);
+    _mesibo.start();
 
-      /**************************************************************************************************
-         override default UI text, colors, etc.Refer to the documentation 
+    /**************************************************************************************************
+         override default UI text, colors, etc.Refer to the documentation
 
-	 https://mesibo.com/documentation/ui-modules/ 
+	 https://mesibo.com/documentation/ui-modules/
 
 	 Also refer to the header file for complete list of parameters (applies to both Android/iOS)
 	 https://github.com/mesibo/mesiboframeworks/blob/main/mesiboui.framework/Headers/MesiboUI.h#L170
       **************************************************************************************************/
 
-      _mesiboUi.getUiDefaults().then((MesiboUIOptions options) {
-        options.enableBackButton = true;
-        options.appName = "My First App";
-        options.toolbarColor = 0xff00868b;
-        _mesiboUi.setUiDefaults(options);
-      });
+    _mesiboUi.getUiDefaults().then((MesiboUIOptions options) {
+      options.enableBackButton = true;
+      options.appName = "My First App";
+      options.toolbarColor = 0xff00868b;
+      _mesiboUi.setUiDefaults(options);
+    });
 
-      /**************************************************************************************************
-         The code below enables basic UI customization. 
-	
-         However, you can customize entire user interface by implementing MesiboUIListner for Android and 
-         iOS. Refer to 
+    /**************************************************************************************************
+         The code below enables basic UI customization.
+
+         However, you can customize entire user interface by implementing MesiboUIListner for Android and
+         iOS. Refer to
 
 	https://mesibo.com/documentation/ui-modules/customizing/
       **************************************************************************************************/
 
-      MesiboUIButtons buttons = MesiboUIButtons();
-      buttons.message = true;
-      buttons.audioCall = true;
-      buttons.videoCall = true;
-      buttons.groupAudioCall = true;
-      buttons.groupVideoCall = true;
-      buttons.endToEndEncryptionInfo = false; // e2ee should be enabled 
-      _mesiboUi.setupBasicCustomization(buttons, null);
+    MesiboUIButtons buttons = MesiboUIButtons();
+    buttons.message = true;
+    buttons.audioCall = true;
+    buttons.videoCall = true;
+    buttons.groupAudioCall = true;
+    buttons.groupVideoCall = true;
+    buttons.endToEndEncryptionInfo = false; // e2ee should be enabled
+    _mesiboUi.setupBasicCustomization(buttons, null);
   }
 
   void _loginUser1() {
-    if(null == _mesibo) {
+    if (null == _mesibo) {
       showAlert("Mesibo NULL", "mesibo null");
       return;
     }
-    if(mLoginDone) {
-      showAlert("Failed", "You have already initiated login. If the connection status is not 1, check the token and the package name/bundle ID");
+    if (mLoginDone) {
+      showAlert("Failed",
+          "You have already initiated login. If the connection status is not 1, check the token and the package name/bundle ID");
       return;
     }
     mLoginDone = true;
@@ -292,8 +292,9 @@ class _HomeWidgetState extends State<HomeWidget> implements MesiboConnectionList
   }
 
   void _loginUser2() {
-    if(mLoginDone) {
-      showAlert("Failed", "You have already initiated login. If the connection status is not 1, check the token and the package name/bundle ID");
+    if (mLoginDone) {
+      showAlert("Failed",
+          "You have already initiated login. If the connection status is not 1, check the token and the package name/bundle ID");
       return;
     }
     mLoginDone = true;
@@ -301,60 +302,65 @@ class _HomeWidgetState extends State<HomeWidget> implements MesiboConnectionList
     remoteUser = user1.address;
   }
 
-
   void _setProfileInfo() async {
-    if(!isOnline()) return;
+    if (!isOnline()) return;
     MesiboProfile profile = await _mesibo.getSelfProfile() as MesiboProfile;
-    
+
     profile.name = "Joe";
     profile.save();
-    
   }
 
   void _sendMessage() async {
-    if(!isOnline()) return;
-    MesiboProfile profile = await _mesibo.getUserProfile(remoteUser) as MesiboProfile;
-    
+    if (!isOnline()) return;
+    MesiboProfile profile =
+        await _mesibo.getUserProfile(remoteUser) as MesiboProfile;
+
     MesiboMessage m = profile.newMessage();
     m.message = "Hello from Flutter";
     m.send();
   }
 
   void _showMessages() async {
-    if(!isOnline()) return;
-    MesiboProfile profile = await _mesibo.getUserProfile(remoteUser) as MesiboProfile;
-    
+    if (!isOnline()) return;
+    MesiboProfile profile =
+        await _mesibo.getUserProfile(remoteUser) as MesiboProfile;
+
     _mesiboUi.launchMessaging(profile);
   }
 
   void _showUserList() {
-    if(!isOnline()) return;
+    if (!isOnline()) return;
     _mesiboUi.launchUserList();
   }
 
   void _audioCall() async {
-    if(!isOnline()) return;
-    MesiboProfile profile = await _mesibo.getUserProfile(remoteUser) as MesiboProfile;
+    if (!isOnline()) return;
+    MesiboProfile profile =
+        await _mesibo.getUserProfile(remoteUser) as MesiboProfile;
     _mesiboUi.call(profile, false);
   }
 
   void _videoCall() async {
-    if(!isOnline()) return;
-    MesiboProfile profile = await _mesibo.getUserProfile(remoteUser) as MesiboProfile;
+    if (!isOnline()) return;
+    MesiboProfile profile =
+        await _mesibo.getUserProfile(remoteUser) as MesiboProfile;
     _mesiboUi.call(profile, true);
   }
 
   void _groupCall() async {
-    if(!isOnline()) return;
-    int groupid = 0; // create group first, add memmbers and then execute the following. 
+    if (!isOnline()) return;
+    int groupid =
+        0; // create group first, add memmbers and then execute the following.
 
     // disabled by defaut
-    if(0 == groupid) {
-      showAlert("No group defined", "Refer to the group management documentation to create a group and add members before using group call function");
+    if (0 == groupid) {
+      showAlert("No group defined",
+          "Refer to the group management documentation to create a group and add members before using group call function");
       return;
     }
 
-    MesiboProfile profile = await _mesibo.getGroupProfile(groupid) as MesiboProfile;
+    MesiboProfile profile =
+        await _mesibo.getGroupProfile(groupid) as MesiboProfile;
     _mesiboUi.groupCall(profile, true, true, false, false);
   }
 
@@ -363,88 +369,104 @@ class _HomeWidgetState extends State<HomeWidget> implements MesiboConnectionList
   }
 
   void _getPhoneContacts() async {
-    MesiboPhoneContact contact = (await _mesibo.getPhoneContactsManager().getPhoneNumberInfo("+18005551234", null, true))! as MesiboPhoneContact;
+    MesiboPhoneContact contact = (await _mesibo
+        .getPhoneContactsManager()
+        .getPhoneNumberInfo("+18005551234", null, true))! as MesiboPhoneContact;
 
-    print("Mesibo Contact: name ${contact.name} phone ${contact.phoneNumber} formatted ${contact.formattedPhoneNumber} country ${contact.country}");
+    print(
+        "Mesibo Contact: name ${contact.name} phone ${contact.phoneNumber} formatted ${contact.formattedPhoneNumber} country ${contact.country}");
   }
 
   void __createGroup() async {
     MesiboGroupSettings settings = MesiboGroupSettings();
     settings.name = "My Group";
   }
-  
+
   @override
   void Mesibo_onMessage(MesiboMessage message) {
     String groupName = "";
-    if(null != message.groupProfile)
-      groupName = message.groupProfile!.name!;
+    if (null != message.groupProfile) groupName = message.groupProfile!.name!;
 
-    print('Mesibo_onMessage: from: (' + message.profile!.name! + ") group: (" + groupName + ") Message: " + message.message!);
+    print('Mesibo_onMessage: from: (' +
+        message.profile!.name! +
+        ") group: (" +
+        groupName +
+        ") Message: " +
+        message.message!);
   }
-  
+
   @override
   void Mesibo_onMessageStatus(MesiboMessage message) {
     print('Mesibo_onMessageStatus: ' + message.status.toString());
   }
-  
+
   @override
   void Mesibo_onMessageUpdate(MesiboMessage message) {
     print('Mesibo_onMessageUpdate: ' + message.message!);
   }
 
   @override
-  void Mesibo_onGroupCreated(MesiboProfile profile) {
-
-  }
+  void Mesibo_onGroupCreated(MesiboProfile profile) {}
 
   @override
   void Mesibo_onGroupJoined(MesiboProfile profile) {
-      print("Mesibo Group Joined: " + profile.name! + " group id: " + profile.groupId.toString());
-      MesiboMessage m = profile.newMessage();
-      m.message = "Hey, I have joined this group from Flutter";
-      m.send();
+    print("Mesibo Group Joined: " +
+        profile.name! +
+        " group id: " +
+        profile.groupId.toString());
+    MesiboMessage m = profile.newMessage();
+    m.message = "Hey, I have joined this group from Flutter";
+    m.send();
 
-      MesiboGroupProfile? groupProfile = profile.getGroupProfile();
-      if(groupProfile == null) return;
-      groupProfile.getMembers(10, false, this);
+    MesiboGroupProfile? groupProfile = profile.getGroupProfile();
+    if (groupProfile == null) return;
+    groupProfile.getMembers(10, false, this);
   }
 
   @override
   void Mesibo_onGroupLeft(MesiboProfile profile) {
-    print("Mesibo Group left: " + profile.name! + " group id: " + profile.groupId.toString());
+    print("Mesibo Group left: " +
+        profile.name! +
+        " group id: " +
+        profile.groupId.toString());
   }
 
   @override
-  void Mesibo_onGroupMembers(MesiboProfile profile, List<MesiboGroupMember?> members) {
-    print("Mesibo Group members: " + profile.name! + " group id: " + profile.groupId.toString());
+  void Mesibo_onGroupMembers(
+      MesiboProfile profile, List<MesiboGroupMember?> members) {
+    print("Mesibo Group members: " +
+        profile.name! +
+        " group id: " +
+        profile.groupId.toString());
 
-    for(final m in members) {
-        String? name = m?.getProfile()!.getNameOrAddress();
-        print("Mesibo group member: " + name!);
+    for (final m in members) {
+      String? name = m?.getProfile()!.getNameOrAddress();
+      print("Mesibo group member: " + name!);
     }
   }
 
   @override
-  void Mesibo_onGroupMembersJoined(MesiboProfile profile, List<MesiboGroupMember?> members) {
-    print("Mesibo Group members joined: " + profile.name! + " group id: " + profile.groupId.toString());
+  void Mesibo_onGroupMembersJoined(
+      MesiboProfile profile, List<MesiboGroupMember?> members) {
+    print("Mesibo Group members joined: " +
+        profile.name! +
+        " group id: " +
+        profile.groupId.toString());
   }
 
   @override
-  void Mesibo_onGroupMembersRemoved(MesiboProfile profile, List<MesiboGroupMember?> members) {
-
-  }
-
-  @override
-  void Mesibo_onGroupSettings(MesiboProfile profile, MesiboGroupSettings? groupSettings, MesiboMemberPermissions? memberPermissions, List<MesiboGroupPin?> groupPins) {
-
-  }
+  void Mesibo_onGroupMembersRemoved(
+      MesiboProfile profile, List<MesiboGroupMember?> members) {}
 
   @override
-  void Mesibo_onGroupError(MesiboProfile profile, int error) {
+  void Mesibo_onGroupSettings(
+      MesiboProfile profile,
+      MesiboGroupSettings? groupSettings,
+      MesiboMemberPermissions? memberPermissions,
+      List<MesiboGroupPin?> groupPins) {}
 
-  }
-
-
+  @override
+  void Mesibo_onGroupError(MesiboProfile profile, int error) {}
 }
 
 /// Widget to display start video call title.

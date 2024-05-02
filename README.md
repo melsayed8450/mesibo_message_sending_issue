@@ -53,4 +53,4 @@ I/flutter (  961): Mesibo_onConnectionStatus: 1
 1. we uninstalled the application from all test devices and Created two brand new users and generated fresh tokens for each.
 2. then we tested the messaging by sending the message from user 1 to user 2 but the message was not sent
 3. because the message was not sent, we stopped further login from user 2 and sent messages from user 1 again
-4. Additionally, we used the mesibo Messenger  web demo at https://mesibo.com/demos/messenger/ as one user and we found that message sent from mesibo Messenger  web demo are received in our app but the message is not sent from our app to mesibo Messenger  web demo, refer to below screenshot : 
+4. Additionally, we used the mesibo Messenger  web demo at https://mesibo.com/demos/messenger/ as one user and we found that message sent from mesibo Messenger  web demo are received in our app but the message is not sent from our app to mesibo Messenger  web demo, refer to below screenshot :
